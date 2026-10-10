@@ -98,4 +98,4 @@ git --version
 
 Most problems have a known fix. See [troubleshooting.md](troubleshooting.md).
 
-Use whatever help you want on this lab, including a chatbot. It is setup, not assessment. If you are stuck, get stuck early and say so. Every failure here is fixable with time, and none of them is fixable the night before.
+Use whatever help you want on this lab, including a chatbot. It is setup, not assessment. 
