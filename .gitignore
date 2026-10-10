@@ -1,0 +1,6 @@
+*.iso
+*.qcow2
+*.vdi
+*.vmdk
+*.utm/
+.DS_Store
