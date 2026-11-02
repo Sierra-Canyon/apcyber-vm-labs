@@ -9,6 +9,8 @@ Starting in Unit 3, the hands-on work in this course happens on a Linux virtual 
 | # | Lab | What you do |
 |:--|:----|:------------|
 | 00 | [VM setup](labs/00-vm-setup/README.md) | Install a virtualization tool and Ubuntu, then prove the machine runs |
+| 01 | [Find your own addresses](labs/01-find-your-own-addresses/README.md) | Your VM's IP address, MAC address, gateway, and subnet, and ARP caught in the act |
+| 02 | [Ports and the log](labs/02-ports-and-the-log/README.md) | What your VM listens on, ICMP, DNS, and TCP on the wire, then one night of Kestrel's router log |
 
 New labs are added here as the course reaches them.
 
