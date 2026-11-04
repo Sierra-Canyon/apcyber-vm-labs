@@ -60,7 +60,7 @@ git switch -c lab01
 python3 scripts/record.py 01 step2 ip -br addr
 ```
 
-Each line is one network interface: its name, its state, and its addresses. `lo` is the VM talking to itself. Ignore it. The other line is your VM's network card.
+Each line is one network interface: its name, its state, and its addresses. `lo` is the VM talking to itself. Ignore it. The other line is your VM's network card. On a Mac with UTM, its name is usually `enp0s1`.
 
 *You should see* lines in this shape. This sample is from a different machine, so your names and numbers differ.
 
@@ -112,7 +112,7 @@ Each line is an IP address your VM has already matched to a MAC address.
 
 ## Step 7: Watch ARP happen
 
-Open a second tab with **Ctrl+Shift+T**. It opens in the same folder. In the second tab, start a capture, using your interface name from Step 2:
+Open a second tab with **Ctrl+Shift+T**. It opens in the same folder. In the second tab, start a capture. The commands below say `eth0`, the sample's name. Type your own interface name from Step 2 instead, such as `enp0s1`:
 
 ```bash
 python3 scripts/record.py 01 step7 sudo tcpdump -n -e -l -c 2 -i eth0 arp
