@@ -2,30 +2,58 @@
 
 **Meeting:** 29 · Addresses
 **Graded:** as part of the Meeting 29 classwork.
-**Turn in:** the Lab 01 record sheet, by hand, at the end of the period. Nothing is uploaded.
+**Turn in:** `evidence/Lab01.md` in your lab repository, pushed on the `lab01` branch with a pull request, by the end of the period.
 
-Every command in this lab runs in your VM. Write each answer on your record sheet as you go.
+Every command in this lab runs in your VM. Each step that prints something you need is run through `scripts/record.py`, which shows the output on the screen and also writes it into your evidence file. You answer the questions in that file at the end.
 
-## Step 1: Get the tools and this repository
+## Step 1: Get the tools, sign in, and get your repository
 
-Open **Terminal** in the VM.
+Do this once. Later labs start at Step 2.
+
+**1a. Tools.** Open **Terminal** in the VM.
 
 ```bash
-sudo apt update && sudo apt install -y git tcpdump
+sudo apt update && sudo apt install -y git tcpdump gh
+```
+
+This can take a few minutes. Leave it running.
+
+**1b. Sign the VM in to GitHub.** Use your real name and your school email.
+
+```bash
+git config --global user.name "Your Real Name"
+git config --global user.email "you@sierracanyon.org"
+gh auth login
+```
+
+Answer its questions with the arrow keys and Enter:
+
+| It asks | Choose |
+|:--|:--|
+| Where do you use GitHub? | GitHub.com |
+| Preferred protocol for Git operations? | HTTPS |
+| Authenticate Git with your GitHub credentials? | Yes |
+| How would you like to authenticate GitHub CLI? | Login with a web browser |
+
+It prints a code like `A1B2-C3D4`. On your **Mac**, open [github.com/login/device](https://github.com/login/device), type the code, and approve. Ignore the browser that tries to open inside the VM.
+
+*You should see* `✓ Logged in as` and your username.
+
+**1c. Your lab repository.** On your Mac, open the Lab Repository link from today's Blackbaud assignment and accept it. Then, in the VM, with your own GitHub username in place of `<your-username>`:
+
+```bash
 mkdir -p ~/version_control && cd ~/version_control
-git clone https://github.com/Sierra-Canyon/apcyber-vm-labs.git
+gh repo clone Sierra-Canyon/apcyber-2026-2027-vm-labs-<your-username>
+cd apcyber-2026-2027-vm-labs-<your-username>
+git switch -c lab01
 ```
 
-*If it says* `destination path 'apcyber-vm-labs' already exists`, run this instead:
-
-```bash
-cd ~/version_control/apcyber-vm-labs && git pull
-```
+*You should see* `Switched to a new branch 'lab01'`. Every command below runs from this folder.
 
 ## Step 2: Your IP address
 
 ```bash
-ip -br addr
+python3 scripts/record.py 01 step2 ip -br addr
 ```
 
 Each line is one network interface: its name, its state, and its addresses. `lo` is the VM talking to itself. Ignore it. The other line is your VM's network card.
@@ -37,7 +65,7 @@ lo               UNKNOWN        127.0.0.1/8
 eth0             UP             192.0.2.2/24
 ```
 
-**Sheet, line 1:** the interface name. **Line 2:** the IP address that has four numbers separated by dots, and the number after the slash. If the line also shows a long address with colons, that is an IPv6 address. Leave it off.
+Questions 1 and 2 in your evidence file are about this output. If the line also shows a long address with colons, that is an IPv6 address. Leave it off.
 
 ## Step 3: Check which network you are on
 
@@ -48,17 +76,15 @@ On a Mac with UTM, the address usually begins `192.168.64.`. With VirtualBox, it
 ## Step 4: Your MAC address
 
 ```bash
-ip -br link
+python3 scripts/record.py 01 step4 ip -br link
 ```
 
 On your interface's line, the MAC address is six pairs of characters separated by colons, such as `02:fc:00:00:00:01`.
 
-**Sheet, line 3:** your MAC address.
-
 ## Step 5: Your default gateway
 
 ```bash
-ip route
+python3 scripts/record.py 01 step5 ip route
 ```
 
 The line that starts `default via` names your default gateway.
@@ -70,25 +96,25 @@ default via 192.0.2.1 dev eth0
 192.0.2.0/24 dev eth0 proto kernel scope link src 192.0.2.2
 ```
 
-**Sheet, line 4:** your gateway's IP address. **Line 5:** your subnet. It is the second line of the output, the one that ends in `/24`.
+Your subnet is the second line, the one that ends in `/24`.
 
 ## Step 6: Your ARP table
 
 ```bash
-ip neigh
+python3 scripts/record.py 01 step6 ip neigh
 ```
 
 Each line is an IP address your VM has already matched to a MAC address.
 
-**Sheet, line 6:** the gateway's line, if it is there. If it is not, write "not listed."
-
 ## Step 7: Watch ARP happen
 
-Open a second tab with **Ctrl+Shift+T**. In the second tab, start a capture, using your interface name from Step 2:
+Open a second tab with **Ctrl+Shift+T**. It opens in the same folder. In the second tab, start a capture, using your interface name from Step 2:
 
 ```bash
-sudo tcpdump -n -e -i eth0 arp
+python3 scripts/record.py 01 step7 sudo tcpdump -n -e -l -c 2 -i eth0 arp
 ```
+
+It asks for your password, then waits. `-c 2` makes it stop by itself after two packets.
 
 Go back to the first tab. Empty the ARP table, then ping the gateway, using your own interface name and gateway:
 
@@ -97,35 +123,58 @@ sudo ip neigh flush dev eth0
 ping -c 3 192.0.2.1
 ```
 
-Go back to the second tab. *You should see* two lines like these (different machine):
+Go back to the second tab. *You should see* two lines like these (different machine), then `Recorded under step7`:
 
 ```
 05:56:18.349290 02:fc:00:00:00:01 > ff:ff:ff:ff:ff:ff, ethertype ARP (0x0806), length 42: Request who-has 192.0.2.1 tell 192.0.2.2, length 28
 05:56:18.349382 02:fc:00:00:00:05 > 02:fc:00:00:00:01, ethertype ARP (0x0806), length 42: Reply 192.0.2.1 is-at 02:fc:00:00:00:05, length 28
 ```
 
-Each line starts with the time. The first MAC address after it on a line is who sent it, and the second is who it was sent to. Press **Ctrl+C** to stop the capture.
-
-**Sheet, lines 7 to 9:** who the request was sent to, what it asked, and what the reply said.
+Each line starts with the time. The first MAC address after it is who sent it, and the second is who it was sent to. If your two lines are not one `Request` and one `Reply`, run the capture again, then the flush and the ping again. The new output replaces the old.
 
 ## Step 8: Check the table again
 
 ```bash
-ip neigh
+python3 scripts/record.py 01 step8 ip neigh
 ```
 
-**Sheet, line 10:** the gateway's line now. **Line 11:** what your VM checked about the reply before it wrote it in the table.
+## Step 9: Answer the questions
 
-## Step 9: Kestrel's addresses
+```bash
+gnome-text-editor evidence/Lab01.md &
+```
 
-Part 2 of the record sheet is on paper. No VM.
+Every output is already in the file. Type each answer after `Answer:`, for questions 1 to 11 in Part 1, then the table and questions A to C in Part 2. Part 2 is about Kestrel and needs no commands. Save with **Ctrl+S**.
+
+If you finish early, run this, then answer question D:
+
+```bash
+python3 scripts/record.py 01 stepD ip neigh
+```
+
+## Step 10: Turn it in
+
+Save the file first, then:
+
+```bash
+git add evidence/Lab01.md
+git commit -m "Lab 01: evidence"
+git push -u origin lab01
+gh pr create --fill --base main --reviewer jd12
+```
+
+*You should see* a link to your pull request. Do not merge it.
 
 ## If it broke
 
 | You see | Fix |
 |:--|:--|
-| `tcpdump: eth0: You don't have permission to perform this capture on that device` | Put `sudo` in front of the command. |
+| `tcpdump: eth0: You don't have permission to perform this capture on that device` | Put `sudo` in front of `tcpdump`. |
 | `Failed to send flush request: Operation not permitted` | Put `sudo` in front of the command. |
 | `tcpdump: enp0s9: No such device exists` | The interface name is wrong. Copy it from `ip -br addr`. |
-| No ARP lines in the capture after the ping | The table filled again before the ping. Leave the capture running, then flush and ping again. |
-| `git: command not found` | Step 1 did not finish. Run it again and read the last line it prints. |
+| The capture is still waiting after the ping | The table filled again before the ping. Leave the capture running, then flush and ping again. |
+| `GraphQL: Could not resolve to a Repository` | Accept the assignment on your Mac first, and check the username in the repository name. |
+| `There is no <!-- output: step7 --> line` | The step name is typed wrong. Copy the command from this README. |
+| `Cannot find .../evidence/Lab01.md` | Run the command from inside your lab repository folder. |
+| `gh: command not found` | Step 1a did not finish. Run it again and read the last line it prints. |
+| The editor says the file changed on disk | Choose **Reload**, then type your answers again. Record every step before you start typing. |
