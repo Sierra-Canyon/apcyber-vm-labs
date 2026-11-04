@@ -39,16 +39,20 @@ It prints a code like `A1B2-C3D4`. On your **Mac**, open [github.com/login/devic
 
 *You should see* `✓ Logged in as` and your username.
 
-**1c. Your lab repository.** On your Mac, open the Lab Repository link from today's Blackbaud assignment and accept it. Then, in the VM, with your own GitHub username in place of `<your-username>`:
+**1c. Accept your lab repository.** Every lab from today to May lives in one repository. Accept it once, on your Mac:
+
+**[VM Labs](https://classroom50.org/Sierra-Canyon/apcyber-2026-2027/assignments/vm-labs/accept)**
+
+Then, in the VM, with your own GitHub username in place of `<your-username>`:
 
 ```bash
 mkdir -p ~/version_control && cd ~/version_control
-gh repo clone Sierra-Canyon/apcyber-2026-2027-vm-labs-<your-username>
+git clone https://github.com/Sierra-Canyon/apcyber-2026-2027-vm-labs-<your-username>.git
 cd apcyber-2026-2027-vm-labs-<your-username>
 git switch -c lab01
 ```
 
-*You should see* `Switched to a new branch 'lab01'`. Every command below runs from this folder.
+`git clone` signs in with the account from Step 1b, so it asks for no password. *You should see* `Switched to a new branch 'lab01'`. Every command below runs from this folder.
 
 ## Step 2: Your IP address
 
@@ -173,7 +177,8 @@ gh pr create --fill --base main --reviewer jd12
 | `Failed to send flush request: Operation not permitted` | Put `sudo` in front of the command. |
 | `tcpdump: enp0s9: No such device exists` | The interface name is wrong. Copy it from `ip -br addr`. |
 | The capture is still waiting after the ping | The table filled again before the ping. Leave the capture running, then flush and ping again. |
-| `GraphQL: Could not resolve to a Repository` | Accept the assignment on your Mac first, and check the username in the repository name. |
+| `remote: Repository not found.` | Accept the assignment on your Mac first, and check the username in the repository name. |
+| `git clone` asks for a username and password | Step 1b did not finish. Run `gh auth login` again and answer **Yes** to authenticating Git. |
 | `There is no <!-- output: step7 --> line` | The step name is typed wrong. Copy the command from this README. |
 | `Cannot find .../evidence/Lab01.md` | Run the command from inside your lab repository folder. |
 | `gh: command not found` | Step 1a did not finish. Run it again and read the last line it prints. |
