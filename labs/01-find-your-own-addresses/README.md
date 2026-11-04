@@ -108,7 +108,7 @@ Your subnet is the second line, the one that ends in `/24`.
 python3 scripts/record.py 01 step6 ip neigh
 ```
 
-Each line is an IP address your VM has already matched to a MAC address.
+Each line is an IP address your VM has already matched to a MAC address. A line that starts `fe80::` is the IPv6 version of a neighbor. Leave it off your answers.
 
 ## Step 7: Watch ARP happen
 
