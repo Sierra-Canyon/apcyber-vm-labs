@@ -16,7 +16,9 @@ New labs are added here as the course reaches them.
 
 ## How each lab works
 
-Each lab has its own folder under `labs/` with a `README.md` that tells you what to do, what to turn in, and how it is graded. Read the whole README before you start.
+You work in your own copy of this repository, made for you by Classroom 50 when you accept the lab assignment. Lab 01, Step 1 signs your VM in to GitHub and clones it.
+
+Each lab has its own folder under `labs/` with a `README.md` that tells you what to do. Each lab also has an evidence file, `evidence/Lab<nn>.md`, holding every question you answer. You run each command through `scripts/record.py`, which shows the output and writes it into the evidence file under that step's marker. Then you type your answers in the file, push it on the lab's own branch, and open a pull request. Read the whole README before you start.
 
 ## Lab rules
 
