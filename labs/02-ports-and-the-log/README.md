@@ -41,14 +41,14 @@ It asks for your password, then waits. It stops by itself after two packets.
 In the first tab, with your gateway from Lab 01:
 
 ```bash
-ping -c 3 192.0.2.1
+ping -c 3 192.168.64.1
 ```
 
-*You should see* (different machine):
+*You should see* (one Mac with UTM):
 
 ```
-05:59:12.349152 eth0  Out IP 192.0.2.2 > 192.0.2.1: ICMP echo request, id 988, seq 1, length 64
-05:59:12.349312 eth0  In  IP 192.0.2.1 > 192.0.2.2: ICMP echo reply, id 988, seq 1, length 64
+05:59:12.349152 enp0s1 Out IP 192.168.64.2 > 192.168.64.1: ICMP echo request, id 988, seq 1, length 64
+05:59:12.349312 enp0s1 In  IP 192.168.64.1 > 192.168.64.2: ICMP echo reply, id 988, seq 1, length 64
 ```
 
 ### Step 4: DNS
@@ -65,13 +65,13 @@ First tab:
 resolvectl query wikipedia.org
 ```
 
-In the capture, a question line has `A?` in it. *You should see* a line like this one (different machine):
+In the capture, a question line has `A?` in it. *You should see* a line like this one (one Mac with UTM):
 
 ```
-06:23:24.861593 eth0  Out IP 192.0.2.2.53462 > 8.8.8.8.53: 64219+ [1au] A? example.com. (52)
+06:23:24.861593 enp0s1 Out IP 192.168.64.2.53462 > 192.168.64.1.53: 64219+ [1au] A? example.com. (52)
 ```
 
-The number after the last dot of an address is the port: `192.0.2.2.53462` is address `192.0.2.2`, port `53462`.
+The number after the last dot of an address is the port: `192.168.64.2.53462` is address `192.168.64.2`, port `53462`.
 
 ### Step 5: TCP
 
@@ -87,12 +87,12 @@ First tab:
 wget -q --spider https://www.wikipedia.org
 ```
 
-The capture stops by itself after three packets. *You should see* (different machine):
+The capture stops by itself after three packets. *You should see* (one Mac with UTM):
 
 ```
-05:59:08.247789 eth0  Out IP 192.0.2.2.59936 > 151.101.64.223.443: Flags [S], seq 3340976614, win 65280, options [mss 1360,sackOK,TS val 1429942066 ecr 0,nop,wscale 10], length 0
-05:59:08.247959 eth0  In  IP 151.101.64.223.443 > 192.0.2.2.59936: Flags [S.], seq 1125544719, ack 3340976615, win 43440, options [mss 1460,sackOK,TS val 3676738178 ecr 1429942066,nop,wscale 7], length 0
-05:59:08.247974 eth0  Out IP 192.0.2.2.59936 > 151.101.64.223.443: Flags [.], ack 1, win 64, options [nop,nop,TS val 1429942066 ecr 3676738178], length 0
+05:59:08.247789 enp0s1 Out IP 192.168.64.2.59936 > 151.101.64.223.443: Flags [S], seq 3340976614, win 65280, options [mss 1360,sackOK,TS val 1429942066 ecr 0,nop,wscale 10], length 0
+05:59:08.247959 enp0s1 In  IP 151.101.64.223.443 > 192.168.64.2.59936: Flags [S.], seq 1125544719, ack 3340976615, win 43440, options [mss 1460,sackOK,TS val 3676738178 ecr 1429942066,nop,wscale 7], length 0
+05:59:08.247974 enp0s1 Out IP 192.168.64.2.59936 > 151.101.64.223.443: Flags [.], ack 1, win 64, options [nop,nop,TS val 1429942066 ecr 3676738178], length 0
 ```
 
 ## Part 2: Kestrel's log
