@@ -1,8 +1,8 @@
 # Lab 01: Find Your Own Addresses
 
-**Meeting:** 29 · Addresses
-**Graded:** as part of the Meeting 29 classwork.
-**Turn in:** `evidence/Lab01.md` in your lab repository, pushed on the `lab01` branch with a pull request, by the end of the period.
+**Meetings:** 29 and 30 · Addresses
+**Graded:** as part of the Meeting 30 classwork.
+**Turn in:** `evidence/Lab01.md` in your lab repository, pushed on the `lab01` branch with a pull request, by the end of Meeting 30.
 
 Every command in this lab runs in your VM. Each step that prints something you need is run through `scripts/record.py`, which shows the output on the screen and also writes it into your evidence file. You answer the questions in that file at the end.
 
