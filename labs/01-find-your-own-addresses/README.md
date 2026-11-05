@@ -62,11 +62,11 @@ python3 scripts/record.py 01 step2 ip -br addr
 
 Each line is one network interface: its name, its state, and its addresses. `lo` is the VM talking to itself. Ignore it. The other line is your VM's network card. On a Mac with UTM, its name is usually `enp0s1`.
 
-*You should see* lines in this shape. This sample is from a different machine, so your names and numbers differ.
+*You should see* lines in this shape. This sample is from one Mac with UTM, so your numbers may differ.
 
 ```
-lo               UNKNOWN        127.0.0.1/8
-eth0             UP             192.0.2.2/24
+lo               UNKNOWN        127.0.0.1/8 ::1/128
+enp0s1           UP             192.168.64.2/24 fe80::e47d:9fff:fe44:ec82/64
 ```
 
 Questions 1 and 2 in your evidence file are about this output. If the line also shows a long address with colons, that is an IPv6 address. Leave it off.
@@ -83,7 +83,7 @@ On a Mac with UTM, the address usually begins `192.168.64.`. With VirtualBox, it
 python3 scripts/record.py 01 step4 ip -br link
 ```
 
-On your interface's line, the MAC address is six pairs of characters separated by colons, such as `02:fc:00:00:00:01`.
+On your interface's line, the MAC address is six pairs of characters separated by colons, such as `e6:7d:9f:44:ec:82`.
 
 ## Step 5: Your default gateway
 
@@ -93,11 +93,11 @@ python3 scripts/record.py 01 step5 ip route
 
 The line that starts `default via` names your default gateway.
 
-*You should see* (different machine):
+*You should see* (one Mac with UTM):
 
 ```
-default via 192.0.2.1 dev eth0
-192.0.2.0/24 dev eth0 proto kernel scope link src 192.0.2.2
+default via 192.168.64.1 dev enp0s1 proto dhcp src 192.168.64.2 metric 100
+192.168.64.0/24 dev enp0s1 proto kernel scope link src 192.168.64.2 metric 100
 ```
 
 Your subnet is the second line, the one that ends in `/24`.
@@ -112,10 +112,10 @@ Each line is an IP address your VM has already matched to a MAC address. A line 
 
 ## Step 7: Watch ARP happen
 
-Open a second tab with **Ctrl+Shift+T**. It opens in the same folder. In the second tab, start a capture. The commands below say `eth0`, the sample's name. Type your own interface name from Step 2 instead, such as `enp0s1`:
+Open a second tab with **Ctrl+Shift+T**. It opens in the same folder. In the second tab, start a capture. The commands below use `enp0s1` and `192.168.64.1`, the usual interface and gateway on a Mac with UTM. If Steps 2 and 5 showed you different ones, type yours:
 
 ```bash
-python3 scripts/record.py 01 step7 sudo tcpdump -n -e -l -c 2 -i eth0 arp
+python3 scripts/record.py 01 step7 sudo tcpdump -n -e -l -c 2 -i enp0s1 arp
 ```
 
 It asks for your password, then waits. `-c 2` makes it stop by itself after two packets.
@@ -123,15 +123,15 @@ It asks for your password, then waits. `-c 2` makes it stop by itself after two 
 Go back to the first tab. Empty the ARP table, then ping the gateway, using your own interface name and gateway:
 
 ```bash
-sudo ip neigh flush dev eth0
-ping -c 3 192.0.2.1
+sudo ip neigh flush dev enp0s1
+ping -c 3 192.168.64.1
 ```
 
-Go back to the second tab. *You should see* two lines like these (different machine), then `Recorded under step7`:
+Go back to the second tab. *You should see* two lines like these (one Mac with UTM), then `Recorded under step7`:
 
 ```
-05:56:18.349290 02:fc:00:00:00:01 > ff:ff:ff:ff:ff:ff, ethertype ARP (0x0806), length 42: Request who-has 192.0.2.1 tell 192.0.2.2, length 28
-05:56:18.349382 02:fc:00:00:00:05 > 02:fc:00:00:00:01, ethertype ARP (0x0806), length 42: Reply 192.0.2.1 is-at 02:fc:00:00:00:05, length 28
+10:41:38.983076 e6:7d:9f:44:ec:82 > ff:ff:ff:ff:ff:ff, ethertype ARP (0x0806), length 42: Request who-has 192.168.64.1 tell 192.168.64.2, length 28
+10:41:38.984638 7e:f3:4d:ae:88:64 > e6:7d:9f:44:ec:82, ethertype ARP (0x0806), length 42: Reply 192.168.64.1 is-at 7e:f3:4d:ae:88:64, length 28
 ```
 
 Each line starts with the time. The first MAC address after it is who sent it, and the second is who it was sent to. If your two lines are not one `Request` and one `Reply`, run the capture again, then the flush and the ping again. The new output replaces the old.
@@ -173,7 +173,7 @@ gh pr create --fill --base main --reviewer jd12
 
 | You see | Fix |
 |:--|:--|
-| `tcpdump: eth0: You don't have permission to perform this capture on that device` | Put `sudo` in front of `tcpdump`. |
+| `tcpdump: enp0s1: You don't have permission to perform this capture on that device` | Put `sudo` in front of `tcpdump`. |
 | `Failed to send flush request: Operation not permitted` | Put `sudo` in front of the command. |
 | `tcpdump: enp0s9: No such device exists` | The interface name is wrong. Copy it from `ip -br addr`. |
 | The capture is still waiting after the ping | The table filled again before the ping. Leave the capture running, then flush and ping again. |
