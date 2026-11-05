@@ -1,7 +1,7 @@
 # Lab 02: Ports and the Log
 
-**Meeting:** 30 · Ports and the Log
-**Graded:** as part of the Meeting 30 classwork.
+**Meeting:** 31 · Ports and the Log
+**Graded:** as part of the Meeting 31 classwork.
 **Turn in:** `evidence/Lab02.md` in your lab repository, pushed on the `lab02` branch with a pull request, by the end of the period.
 
 Every command in this lab runs in your VM. You need your interface name and gateway from Lab 01. Each step that prints something you need runs through `scripts/record.py`, which writes the output into your evidence file. You answer the questions in that file at the end.
