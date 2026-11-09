@@ -13,6 +13,7 @@ With your own GitHub username in place of `<your-username>`:
 ```bash
 cd ~/version_control/apcyber-2026-2027-vm-labs-<your-username>
 git switch main
+git pull
 git switch -c lab02
 ```
 
