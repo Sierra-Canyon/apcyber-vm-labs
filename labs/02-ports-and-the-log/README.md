@@ -78,8 +78,10 @@ The number after the last dot of an address is the port: `192.168.64.2.53462` is
 Close any web browser in the VM. Second tab:
 
 ```bash
-python3 scripts/record.py 02 step5 sudo tcpdump -n -l -i any -c 3 tcp port 443
+python3 scripts/record.py 02 step5 sudo tcpdump -n -l -i any -c 3 tcp port 443 and host www.wikipedia.org
 ```
+
+`and host www.wikipedia.org` keeps out other programs that already have a connection open on port 443, so the three packets you catch are the start of this one.
 
 First tab:
 
@@ -90,9 +92,9 @@ wget -q --spider https://www.wikipedia.org
 The capture stops by itself after three packets. *You should see* (one Mac with UTM):
 
 ```
-05:59:08.247789 enp0s1 Out IP 192.168.64.2.59936 > 151.101.64.223.443: Flags [S], seq 3340976614, win 65280, options [mss 1360,sackOK,TS val 1429942066 ecr 0,nop,wscale 10], length 0
-05:59:08.247959 enp0s1 In  IP 151.101.64.223.443 > 192.168.64.2.59936: Flags [S.], seq 1125544719, ack 3340976615, win 43440, options [mss 1460,sackOK,TS val 3676738178 ecr 1429942066,nop,wscale 7], length 0
-05:59:08.247974 enp0s1 Out IP 192.168.64.2.59936 > 151.101.64.223.443: Flags [.], ack 1, win 64, options [nop,nop,TS val 1429942066 ecr 3676738178], length 0
+09:56:23.677604 enp0s1 Out IP 192.168.64.2.54356 > 198.35.26.224.443: Flags [S], seq 1319371984, win 64240, options [mss 1460,sackOK,TS val 329596539 ecr 0,nop,wscale 9], length 0
+09:56:23.691961 enp0s1 In  IP 198.35.26.224.443 > 192.168.64.2.54356: Flags [S.], seq 471340881, ack 1319371985, win 43440, options [mss 1440,sackOK,TS val 1831676193 ecr 329596539,nop,wscale 9], length 0
+09:56:23.692087 enp0s1 Out IP 192.168.64.2.54356 > 198.35.26.224.443: Flags [.], ack 1, win 126, options [nop,nop,TS val 329596554 ecr 1831676193], length 0
 ```
 
 ## Part 2: Kestrel's log
@@ -179,6 +181,7 @@ gh pr create --fill --base main --reviewer jd12
 | `python3: can't open file` | In Part 1 the script is `scripts/record.py`. In Part 2, from the lab folder, it is `../../scripts/record.py`. |
 | `There is no <!-- output: step7 --> line` | The step name is typed wrong. Copy the command from this README. |
 | A capture never stops | Close the browser, press **Ctrl+C**, start the capture again, then run the command in the first tab again. |
+| Step 5 shows `[P.]` and no `[S]` | The capture caught a connection that was already open. Copy the Step 5 command again, including `and host www.wikipedia.org`, then run `wget` again. |
 
 ## Port card
 
