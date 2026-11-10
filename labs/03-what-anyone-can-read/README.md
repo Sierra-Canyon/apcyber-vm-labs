@@ -70,7 +70,7 @@ No `sudo` this time. Reading a file is not capturing. Each line is one packet. T
 wireshark 01_cleartext_vs_tls.pcap &
 ```
 
-Each row is one packet. Click a row, and the middle pane shows that packet's layers: Ethernet, IP, TCP, and what it carried. Use the port card at the bottom of this README for question 2.
+Each row is one packet. Click a row, and the bottom left pane shows that packet's layers: Ethernet, IP, TCP, and what it carried. Click the ▸ arrow at the left of a layer to open it. Use the port card at the bottom of this README for question 2.
 
 ## Part 2: The HTTP sign-in
 
@@ -94,7 +94,7 @@ In Wireshark, type `tls` in the filter bar and press **Enter**. Right-click any 
 
 ### Step 7: What HTTPS still shows
 
-Clear the filter. Click the packet whose Info column says `Client Hello`. In the middle pane, open **Transport Layer Security** > **Handshake Protocol: Client Hello**, then the **Extension: server_name** line. The laptop sent the site's name before the encryption started.
+Clear the filter. Click the packet whose Info column says `Client Hello`. In the bottom left pane, right-click **Transport Layer Security** and choose **Expand Subtrees**. You can also click the ▸ arrow at the left of each line to open it one level at a time. Find the line that starts **Extension: server_name**. The laptop sent the site's name before the encryption started.
 
 Record it. Every web name in this course's files ends in `.example`. The second command counts how many port 443 lines contain the word `password`:
 
