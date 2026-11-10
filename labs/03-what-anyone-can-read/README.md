@@ -8,9 +8,9 @@ This lab opens a packet capture: a saved recording of the traffic on a network. 
 
 You read the file two ways. **Wireshark** shows each packet on the screen. `tcpdump`, run through `scripts/record.py`, writes what you found into your evidence file.
 
-## Step 1: Start a branch
+## Step 1: Get ready
 
-First, on GitHub, merge the pull request **Add Lab 03** in your lab repository. Then, in the VM, with your own GitHub username in place of `<your-username>`:
+**1a. Start a branch.** First, on GitHub, merge the pull request **Add Lab 03** in your lab repository. Then, in the VM, with your own GitHub username in place of `<your-username>`:
 
 ```bash
 cd ~/version_control/apcyber-2026-2027-vm-labs-<your-username>
@@ -22,7 +22,22 @@ cd labs/03-what-anyone-can-read
 
 *You should see* `Switched to a new branch 'lab03'`. Every command below runs from this folder. The script is `../../scripts/record.py` from here, as in Part 2 of Lab 02.
 
-If `wireshark --version` says `command not found`, install it now: `sudo apt install -y wireshark`. When it asks whether non-superusers should be able to capture packets, choose **No**. You only open files today.
+**1b. Install Wireshark.** Check whether it is already there:
+
+```bash
+wireshark --version
+```
+
+If it prints a version number, go on to Step 2. If it says `command not found`, install it:
+
+```bash
+sudo apt update
+sudo apt install -y wireshark
+```
+
+It asks for your password. Partway through, a screen asks **Should non-superusers be able to capture packets?** **<No>** is already highlighted. Press **Enter**. You only open files in this lab. The install takes a few minutes.
+
+*You should see* the prompt come back. Run `wireshark --version` again: it prints a version number.
 
 ## Step 2: Sign the lab rules
 
@@ -109,8 +124,8 @@ gh pr create --fill --base main --reviewer jd12
 
 | You see | Fix |
 |:--|:--|
-| `wireshark: command not found` | Install it: `sudo apt install -y wireshark`, and choose **No** for non-superusers. |
-| `tcpdump: 01_cleartext_vs_tls.pcap: No such file or directory` | Run the `cd labs/03-what-anyone-can-read` line from Step 1. If it still fails, merge the **Add Lab 03** pull request on GitHub, then `git switch main`, `git pull`, `git switch lab03`, `git merge --no-edit main`. |
+| `wireshark: command not found` | Step 1b did not finish. Run `sudo apt update`, then `sudo apt install -y wireshark`, and choose **No** for non-superusers. |
+| `tcpdump: 01_cleartext_vs_tls.pcap: No such file or directory` | Run the `cd labs/03-what-anyone-can-read` line from Step 1a. If it still fails, merge the **Add Lab 03** pull request on GitHub, then `git switch main`, `git pull`, `git switch lab03`, `git merge --no-edit main`. |
 | `python3: can't open file` | From the lab folder the script is `../../scripts/record.py`. |
 | `There is no <!-- output: step5 --> line` | The step name is typed wrong, or `evidence/Lab03.md` is missing. Copy the command from this README. |
 | The Wireshark window never appears | Press **Enter** in the terminal. The `&` lets the terminal keep working while Wireshark opens. |
