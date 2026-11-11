@@ -12,6 +12,9 @@ Starting in Unit 3, the hands-on work in this course happens on a Linux virtual 
 | 01 | [Find your own addresses](labs/01-find-your-own-addresses/README.md) | Your VM's IP address, MAC address, gateway, and subnet, and ARP caught in the act |
 | 02 | [Ports and the log](labs/02-ports-and-the-log/README.md) | What your VM listens on, ICMP, DNS, and TCP on the wire, then one night of Kestrel's router log |
 | 03 | [What anyone on your network can read](labs/03-what-anyone-can-read/README.md) | Open a packet capture in Wireshark, read a password from HTTP, and see what HTTPS still shows |
+| 04 | [Lying to the switch](labs/04-lying-to-the-switch/README.md) | Change your VM's MAC address and watch the gateway answer it, then defend Kestrel's break room wall port |
+| 05 | [Lying about the gateway](labs/05-lying-about-the-gateway/README.md) | Find the moment a laptop claims to be the gateway, and read what it relayed |
+| 06 | [Knocking on every door](labs/06-knocking-on-every-door/README.md) | Read a port scan from its flags, find the banner, and rate a vulnerability scanner's findings |
 
 New labs are added here as the course reaches them.
 
