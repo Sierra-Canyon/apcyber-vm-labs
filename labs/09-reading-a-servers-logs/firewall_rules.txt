@@ -1,0 +1,9 @@
+# Kestrel store server firewall, 203.0.113.10. Rules are read from the top. The first match decides.
+# Rule  Action  Direction  Protocol  From             To               Port
+1       Allow   In         TCP       any              203.0.113.10     443
+2       Allow   In         TCP       any              203.0.113.10     80
+3       Allow   In         TCP       198.51.100.40    203.0.113.10     22
+4       Allow   In         TCP       198.51.100.0/24  203.0.113.10     22
+5       Block   In         TCP       any              203.0.113.10     3306
+6       Block   In         any       any              203.0.113.10     any
+7       Allow   Out        any       203.0.113.10     any              any
