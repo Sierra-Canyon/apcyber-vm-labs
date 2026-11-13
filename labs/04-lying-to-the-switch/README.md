@@ -17,16 +17,17 @@ cd ~/version_control/apcyber-2026-2027-vm-labs-<your-username>
 git switch main
 git pull
 git switch -c lab04
+cd labs/04-lying-to-the-switch
 ```
 
-*You should see* `Switched to a new branch 'lab04'`. Every command below runs from this folder.
+*You should see* `Switched to a new branch 'lab04'`. Every command below runs from this folder, so the script is `../../scripts/record.py`.
 
 ## Part 1: Your VM
 
 ### Step 2: Your MAC address now
 
 ```bash
-python3 scripts/record.py 04 step2 "ip -br link; ip -br addr"
+python3 ../../scripts/record.py 04 step2 "ip -br link; ip -br addr"
 ```
 
 On your interface's line, the MAC address is the six pairs of characters with colons, such as `e6:7d:9f:44:ec:82`. **Copy it onto paper or into a note now.** You need it in Step 6 to change it back.
@@ -52,17 +53,17 @@ Run `ip -br addr` again until your interface's line shows an address that begins
 ### Step 4: What changed
 
 ```bash
-python3 scripts/record.py 04 step4 "ip -br link; ip -br addr"
+python3 ../../scripts/record.py 04 step4 "ip -br link; ip -br addr"
 ```
 
 Compare it with Step 2: the MAC address, and the IP address.
 
 ### Step 5: Watch the gateway answer the new address
 
-Open a second tab with **Ctrl+Shift+T**. In the second tab:
+Open a second tab with **Ctrl+Shift+T**. It opens in the same folder. In the second tab:
 
 ```bash
-python3 scripts/record.py 04 step5 sudo tcpdump -n -e -l -c 2 -i enp0s1 arp and host 192.168.64.1
+python3 ../../scripts/record.py 04 step5 sudo tcpdump -n -e -l -c 2 -i enp0s1 arp and host 192.168.64.1
 ```
 
 It asks for your password, then waits. In the first tab, empty the ARP table and ping the gateway, as in Lab 01:
@@ -94,7 +95,7 @@ sudo ip link set dev enp0s1 up
 Wait until `ip -br addr` shows a `192.168.64.` address again, then record it:
 
 ```bash
-python3 scripts/record.py 04 step6 "ip -br link; ip -br addr"
+python3 ../../scripts/record.py 04 step6 "ip -br link; ip -br addr"
 ```
 
 The MAC address should match Step 2. If you lost the original, restart the VM: a MAC address set with `ip link` does not survive a restart.
@@ -121,7 +122,7 @@ The questions are at the end of your evidence file.
 ## Step 7: Answer the questions
 
 ```bash
-gnome-text-editor evidence/Lab04.md &
+gnome-text-editor ../../evidence/Lab04.md &
 ```
 
 Every output is already in the file. Type each answer after `Answer:`, questions 1 to 7, then the table and questions A to C in Part 2. Save with **Ctrl+S**.
@@ -131,6 +132,7 @@ Every output is already in the file. Type each answer after `Answer:`, questions
 Save the file first, then:
 
 ```bash
+cd ../..
 git add evidence/Lab04.md
 git commit -m "Lab 04: evidence"
 git push -u origin lab04
@@ -145,6 +147,7 @@ gh pr create --fill --base main --reviewer jd12
 |:--|:--|
 | No `192.168.64.` address a minute after Step 3 or Step 6 | Run `sudo nmcli device connect enp0s1`, wait ten seconds, and check `ip -br addr` again. |
 | `RTNETLINK answers: Device or resource busy` | The interface was still up. Run the `down` line, then the `address` line again. |
+| `python3: can't open file` | From the lab folder the script is `../../scripts/record.py`. Run the `cd labs/04-lying-to-the-switch` line from Step 1. |
 | `Cannot find device "enp0s1"` | The interface name is different. Copy it from Step 2. |
 | `git push` fails with `Could not resolve host` | The network is still coming back. Wait for a `192.168.64.` address, then push again. |
 | The capture is still waiting after the ping | The table filled before the ping. Leave the capture running, then flush and ping again. |
