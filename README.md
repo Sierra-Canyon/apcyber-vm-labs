@@ -14,6 +14,7 @@ Starting in Unit 3, the hands-on work in this course happens on a Linux virtual 
 | 03 | [What anyone on your network can read](labs/03-what-anyone-can-read/README.md) | Open a packet capture in Wireshark, read a password from HTTP, and see what HTTPS still shows |
 | 04 | [Lying to the switch](labs/04-lying-to-the-switch/README.md) | Change your VM's MAC address and watch the gateway answer it, then defend Kestrel's break room wall port |
 | 05 | [Lying about the gateway](labs/05-lying-about-the-gateway/README.md) | Find the moment a laptop claims to be the gateway, and read what it relayed |
+| 5.5 | [Lying about names, and drowning the server](labs/05.5-lying-about-names/README.md) | Read five alerts and name each attack, then poison one name on your own VM and put it back |
 | 06 | [Knocking on every door](labs/06-knocking-on-every-door/README.md) | Read a port scan from its flags, find the banner, and rate a vulnerability scanner's findings |
 | 07 | [Encrypt a file with AES](labs/07-encrypt-a-file-with-aes/README.md) | Lock and unlock a file with AES, try the wrong password, then write Kestrel's wireless and VPN policy |
 | 08 | [A firewall on your VM](labs/08-a-firewall-on-your-vm/README.md) | Trace packets through an ACL, turn on `ufw`, watch rule order decide, and write egress rules |
